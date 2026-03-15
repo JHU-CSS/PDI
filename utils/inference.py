@@ -256,12 +256,14 @@ def perspective_driven_inference(
             "Method must be either 'percentile' or 'basic'. The others are not implemented yet... want to contribute? ;)"
         )
 
+    bootstrap_std = np.std(cdi_bootstrap_distribution)
+
     if alternative == "two-sided":
-        return cdi_pointest, (lower_bound, upper_bound)
+        return cdi_pointest, (lower_bound, upper_bound), bootstrap_std
     elif alternative == "larger":
-        return cdi_pointest, (-np.inf, upper_bound)
+        return cdi_pointest, (-np.inf, upper_bound), bootstrap_std
     elif alternative == "smaller":
-        return cdi_pointest, (lower_bound, np.inf)
+        return cdi_pointest, (lower_bound, np.inf), bootstrap_std
     else:
         raise ValueError(
             "Alternative must be either 'two-sided', 'larger' or 'smaller'."
